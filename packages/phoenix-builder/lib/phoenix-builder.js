@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 const rollup = require('rollup');
+const postcss = require('rollup-plugin-postcss');
 const path = require('path');
 const resolve = require('@rollup/plugin-node-resolve').default;
 const babel = require('@rollup/plugin-babel').default;
 
 const currentWorkingPath = process.cwd();
+
 const { main, name } = require(path.join(currentWorkingPath, 'package.json'));
 
 const inputPath = path.join(currentWorkingPath, main);
@@ -17,6 +19,10 @@ const inputOptions = {
   input: inputPath,
   external: ['react'],
   plugins: [
+    postcss({
+      // Key configuration
+      modules: true,
+    }),
     resolve(),
     babel({
       presets: ['@babel/preset-env', '@babel/preset-react'],
